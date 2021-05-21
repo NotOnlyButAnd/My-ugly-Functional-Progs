@@ -1,13 +1,17 @@
-fun askLanguage(Lang:String, userName:String) =
-    when{
-    Lang == "kotlin" || Lang == "prolog" -> println("\nWhat a TOADY,$userName!")
-        else -> println("\nOk, $userName, that's fine")
+fun sumDigit(number:Int):Int{
+    var tempNumber:Int = number
+    var digit:Int
+    var sum:Int = 0
+    while(tempNumber != 0){
+        digit = tempNumber%10
+        sum += digit
+        tempNumber /= 10
     }
+    return sum
+}
 
 fun main(args: Array<String>) {
-    println("What's your name?")
-    val name = readLine()
-    println("\nHello, $name \nWhat's your favourite language?")
-    val lang = readLine()
-    askLanguage(lang.toString(), name.toString())
+    println("\nHello, input some number (integer):")
+    val number = readLine()!!.toInt()
+    println("\nDigit sum of your number is: ${sumDigit(number)}")
 }
