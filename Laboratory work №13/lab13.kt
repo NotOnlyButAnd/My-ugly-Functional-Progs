@@ -44,8 +44,29 @@ fun maxDigit(number:Int):Int{
     return max
 }
 
+// для 14 - 2,4,6,7,8,10,12 - их 6 штук
+fun countChetNotVzProst(number:Int):Int {
+    var tempNumber = 2
+    var count = 0
+    while (tempNumber < number) {
+        var del = 2
+        var flag: Boolean = false
+        while (del <= tempNumber) {
+            if (tempNumber % del == 0 && number % del == 0) {
+                flag = true
+                break
+            }
+            del++
+        }
+        if (flag && tempNumber % 2 == 0)
+            count++
+        tempNumber++
+    }
+    return count
+}
+
 fun main(args: Array<String>) {
     println("\nHello, input some number (integer):")
     val number = readLine()!!.toInt()
-    println("\nDigit sum of your number is: ${sumDigit(number)}")
+    println("\nCount: ${countChetNotVzProst(number)}")
 }
