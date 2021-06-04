@@ -1,3 +1,6 @@
+import kotlin.math.max
+import kotlin.math.min
+
 // task 1
 fun sumDigUp(number:Int):Int=  if (number != 0) number%10 + sumDigUp(number/10) else 0
 
@@ -48,7 +51,7 @@ tailrec fun minDigTail(number:Int,min:Int):Int=
         min
 
 // task4
-fun goOnNumber1(number:Int, operation: (Int,Int)-> Int, init:Int):Int=
+fun goOnNumber1(number:Int, operation: (Int,Int)-> Int, init:Int = 0):Int=
     if(number != 0)
         operation(number%10, goOnNumber1(number/10, operation, init))
     else
@@ -64,7 +67,13 @@ fun main() {
     //print(maxDigTail(41234123,0))
     //print(minDigUp(52423))
     //print(minDigTail(57263,9))
-    
-    //по сути - сумма цифр числа
-    print(goOnNumber1(12345, {a, b -> a+b}, 0))
+
+    //// по сути - сумма цифр числа
+    //print(goOnNumber1(12345, {a, b -> a+b}))
+    //// по сути - произведение цифр числа
+    //print(goOnNumber1(123, {a, b -> a*b}, 1))
+    //// по сути - минимальная цифра числа
+    //print(goOnNumber1(23415, {a, b -> min(a,b)}, 9))
+    //// по сути - максимальная цифра числа
+    print(goOnNumber1(22311, {a, b -> max(a,b)}))
 }
