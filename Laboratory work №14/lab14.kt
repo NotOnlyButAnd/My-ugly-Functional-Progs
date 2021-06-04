@@ -3,15 +3,15 @@ import java.util.*
 import kotlin.math.max
 import kotlin.math.min
 
-// task 1
+///////////////// task 1 /////////////////
 fun sumDigUp(number:Int):Int=  if (number != 0) number%10 + sumDigUp(number/10) else 0
 
-// task 2
+///////////////// task 2 /////////////////
 fun sumDigDown(number:Int, sum:Int):Int= if (number != 0) sumDigDown(number/10,sum + number%10) else sum
 
 tailrec fun sumDigTail(number:Int,sum:Int):Int= if (number != 0) sumDigTail(number/10,sum + number%10) else sum
 
-// task 3
+///////////////// task 3 /////////////////
 fun mulDigUp(number:Int):Int= if(number != 0) number%10 * mulDigUp(number/10) else 1
 
 tailrec fun mulDigTail(number:Int,mul:Int):Int= if (number != 0) mulDigTail(number/10,mul * number%10) else mul
@@ -52,14 +52,14 @@ tailrec fun minDigTail(number:Int,min:Int):Int=
     else
         min
 
-// task 4
+///////////////// task 4 /////////////////
 fun goOnNumber1(number:Int, operation: (Int,Int)-> Int, init:Int = 0):Int=
     if(number != 0)
         operation(number%10, goOnNumber1(number/10, operation, init))
     else
         init
 
-// task 5
+///////////////// task 5 /////////////////
 fun goOnNumber2(number:Int, operation: (Int,Int)-> Int, init:Int = 0, check: (Int) -> Boolean):Int=
     if(number != 0)
         if (check(number%10))
@@ -69,7 +69,7 @@ fun goOnNumber2(number:Int, operation: (Int,Int)-> Int, init:Int = 0, check: (In
     else
         init
 
-// task 7
+///////////////// task 7 /////////////////
 tailrec fun countEvenDigNotMutPrime(number1:Int, number2:Int = number1 - 1, count:Int = 0):Int=
     if(number2 != 1)
         if (number2%2 == 0 && nod(number1,number2) != 1)
@@ -126,7 +126,7 @@ tailrec fun sumDigLess5(number:Int,sum:Int = 0):Int=
 fun task_7_3(number:Int):Int=
     maxNotMutPrimeNotDivSD(number) * sumDigLess5(number)
 
-// task 8
+///////////////// task 8 /////////////////
 
 // Выбор операции над числами
 fun op(operator: String?): (Int, Int) -> Int =
@@ -137,7 +137,7 @@ fun op(operator: String?): (Int, Int) -> Int =
         else -> throw IllegalArgumentException("Try again")
     }
 
-// Задание 9.20
+///////////////// Задание 9.20 /////////////////
 
 // tailrec fun mulDigTail(number:Int,mul:Int):Int=
 //      if (number != 0)
@@ -152,8 +152,6 @@ fun op(operator: String?): (Int, Int) -> Int =
 //    else
 //        BigInteger.ONE
 
-
-
 fun factorial(number:BigInteger):BigInteger=
     if (number != BigInteger.ONE)
         number * factorial(number - BigInteger.ONE)
@@ -165,6 +163,44 @@ tailrec fun digitSum(number:BigInteger, sum:BigInteger = BigInteger.ZERO):BigInt
         digitSum(number/BigInteger.TEN, sum + number%BigInteger.TEN)
     else
         sum
+
+///////////////// Задание 9.40 /////////////////
+tailrec fun countDigs(number1:Int, count:Int = 0):Int=
+    if(number1 != 0)
+        countDigs(number1/10, count + 1)
+    else
+        count
+
+tailrec fun getDigFromRight(number1:Int, curI:Int = 1, i:Int):Int=
+    if(curI != i)
+        getDigFromRight(number1/10, curI + 1, i)
+    else
+        number1%10
+
+//tailrec fun getSomeStr(curNumber:Int = 1, curN:Int = 1, mul:Int = 1, N:Int = 10):Int=
+//    if (curN < 101)
+//        if (curN >= N)
+//            getSomeStr(curNumber + 1, curN + countDigs(curNumber), mul * getDigFromRight(curNumber,1, curN - N + 1), N * 10)
+//        else
+//            getSomeStr(curNumber + 1,curN + countDigs(curNumber), mul, N)
+//    else
+//        mul
+
+tailrec fun getSomeStr(curNumber:Int = 1, curN:Int = 1, mul:Int = 1, N:Int = 10):Int{
+    if (curN < 1000010)
+        if (curN + countDigs(curNumber) - 1 >= N)
+        {
+            println("curNumber - $curNumber; curN - $curN; n - $N; dig = ${getDigFromRight(curNumber,1, curN + countDigs(curNumber) - N)}")
+            return getSomeStr(curNumber + 1, curN + countDigs(curNumber), mul * getDigFromRight(curNumber,1, curN + countDigs(curNumber) - N), N * 10)
+        }
+        else
+        {
+            println("curNumber - $curNumber; curN - $curN; n - $N;")
+            return getSomeStr(curNumber + 1,curN + countDigs(curNumber), mul, N)
+        }
+    else
+        return mul
+}
 
 
 fun main() {
@@ -233,9 +269,13 @@ fun main() {
      */
 
     // Задание 9.20
-    
+    /*
     val n:BigInteger = BigInteger.valueOf(100)
     //print("Factorial ${n} = ${factorial(n)}")
     print("Digit sum factorial ${n} = ${digitSum(factorial(n))}")
-     
+     */
+
+    // Задание 9.40
+    //print(getDigFromRight(1234,1,2))
+    print(getSomeStr())
 }
