@@ -67,6 +67,63 @@ fun goOnNumber2(number:Int, operation: (Int,Int)-> Int, init:Int = 0, check: (In
     else
         init
 
+// task 7
+tailrec fun countEvenDigNotMutPrime(number1:Int, number2:Int = number1 - 1, count:Int = 0):Int=
+    if(number2 != 1)
+        if (number2%2 == 0 && nod(number1,number2) != 1)
+            countEvenDigNotMutPrime(number1, number2 - 1, count + 1)
+        else
+            countEvenDigNotMutPrime(number1, number2 - 1, count)
+    else
+        count
+
+tailrec fun nod(number1:Int, number2:Int, curDel:Int = number2, del:Int = 1):Int=
+    if (curDel != 1)
+        if (number1%curDel == 0 && number2%curDel == 0)
+            nod(number1, number2, curDel - 1, curDel)
+        else
+            nod(number1, number2, curDel - 1, del)
+    else
+        del
+
+tailrec fun maxNotDiv3 (number:Int,max:Int = -1):Int=
+    if(number != 0)
+        if(number%10 > max && (number%10)%3 != 0)
+            maxNotDiv3(number/10,number%10)
+        else
+            maxNotDiv3(number/10,max)
+    else
+        max
+
+tailrec fun smallestDivisor(number:Int, curDel:Int = number / 2, del:Int = number):Int=
+    if (curDel != 1)
+        if (number%curDel == 0)
+            smallestDivisor(number, curDel - 1, curDel)
+        else
+            smallestDivisor(number, curDel - 1, del)
+    else
+        del
+
+tailrec fun maxNotMutPrimeNotDivSD(number1:Int, number2:Int = number1 - 1, smallestDel:Int = smallestDivisor(number1), max:Int = 1):Int=
+    if(number2 != 1)
+        if (number2 % smallestDel != 0 && nod(number1,number2) != 1 && number2 > max)
+            maxNotMutPrimeNotDivSD(number1, number2 - 1, smallestDel, number2)
+        else
+            maxNotMutPrimeNotDivSD(number1, number2 - 1, smallestDel, max)
+    else
+        max
+
+tailrec fun sumDigLess5(number:Int,sum:Int = 0):Int=
+    if (number != 0)
+        if (number%10 < 5)
+            sumDigLess5(number/10,sum + number%10)
+        else
+            sumDigLess5(number/10,sum)
+    else sum
+
+fun task_7_3(number:Int):Int=
+    maxNotMutPrimeNotDivSD(number) * sumDigLess5(number)
+
 fun main() {
     //print(sumDigUp(333))
     //print(sumDigDown(122,0))
@@ -92,5 +149,27 @@ fun main() {
     //// По сути - проверка равна ли цифра 5 и замена ее на 0
     //print(goOnNumber2(24531534, {a, b -> b*10},0, {a -> a == 5}))
     //// По сути - проверка больше ли цифра чем 5. Если да - то отнять от нее 5
-    print(goOnNumber2(28511594, {a, b -> b*10 + a-5},0, {a -> a > 5}))
+    //print(goOnNumber2(28511594, {a, b -> b*10 + a-5},0, {a -> a > 5}))
+
+    // проверка работы НОД (14,8 -> 2), (14,7 -> 7), (26,13 -> 13)
+    // когда меньшее число на первом месте - тоже работает
+    //print(nod(8,14))
+
+    // Метод 1. Задание 7
+    // Делители 14: 1,2,7
+    // Числа меньше 14: 2,3,4,5,6,7,8,9,10,11,12,13
+    // Чётные: 2,4,6,8,10,12. НЕ взаимно простые - все (общий делитель 2)
+    //print(countEvenDigNotMutPrime(14))
+
+    // Метод 2. Задание 7
+    //print(maxNotDiv3(333))
+
+    // Метод 3. Задание 7
+    //print(smallestDivisor(49))
+    // Из проверки метода 1 делаем вывод, что наибольшее не вз пр с 14, которое не делится на наим делитель = 2, это число 7
+    //print(maxNotMutPrimeNotDivSD(14))
+    //print(sumDigLess5(14))
+    // максимальный бла бла бла = 7, сумма цифр меньше 5 = 5 => 7 * 5 = 35
+    print(task_7_3(14))
+
 }
