@@ -50,10 +50,20 @@ tailrec fun minDigTail(number:Int,min:Int):Int=
     else
         min
 
-// task4
+// task 4
 fun goOnNumber1(number:Int, operation: (Int,Int)-> Int, init:Int = 0):Int=
     if(number != 0)
         operation(number%10, goOnNumber1(number/10, operation, init))
+    else
+        init
+
+// task 5
+fun goOnNumber2(number:Int, operation: (Int,Int)-> Int, init:Int = 0, check: (Int) -> Boolean):Int=
+    if(number != 0)
+        if (check(number%10))
+            operation(number%10, goOnNumber2(number/10, operation, init, check))
+        else
+            goOnNumber2(number/10,operation, init, check) * 10 + number%10
     else
         init
 
@@ -75,5 +85,9 @@ fun main() {
     //// по сути - минимальная цифра числа
     //print(goOnNumber1(23415, {a, b -> min(a,b)}, 9))
     //// по сути - максимальная цифра числа
-    print(goOnNumber1(22311, {a, b -> max(a,b)}))
+    //print(goOnNumber1(22311, {a, b -> max(a,b)}))
+
+    // По сути - проверка четности и деление таких цифр на 2
+    print(goOnNumber2(2431354, {a, b -> b*10 + a/2},0, {a -> a%2 == 0}))
+
 }
