@@ -47,6 +47,13 @@ tailrec fun minDigTail(number:Int,min:Int):Int=
     else
         min
 
+// task4
+fun goOnNumber1(number:Int, operation: (Int,Int)-> Int, init:Int):Int=
+    if(number != 0)
+        operation(number%10, goOnNumber1(number/10, operation, init))
+    else
+        init
+
 fun main() {
     //print(sumDigUp(333))
     //print(sumDigDown(122,0))
@@ -56,5 +63,8 @@ fun main() {
     //print(maxDigUp(531641))
     //print(maxDigTail(41234123,0))
     //print(minDigUp(52423))
-    print(minDigTail(57263,9))
+    //print(minDigTail(57263,9))
+    
+    //по сути - сумма цифр числа
+    print(goOnNumber1(12345, {a, b -> a+b}, 0))
 }
