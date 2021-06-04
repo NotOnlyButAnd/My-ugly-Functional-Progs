@@ -1,3 +1,4 @@
+import java.math.BigInteger
 import java.util.*
 import kotlin.math.max
 import kotlin.math.min
@@ -127,7 +128,7 @@ fun task_7_3(number:Int):Int=
 
 // task 8
 
-//Выбор операции над числами
+// Выбор операции над числами
 fun op(operator: String?): (Int, Int) -> Int =
     when (operator) {
         "+" -> {a: Int, b: Int -> a + b}
@@ -136,13 +137,42 @@ fun op(operator: String?): (Int, Int) -> Int =
         else -> throw IllegalArgumentException("Try again")
     }
 
+// Задание 9.20
+
+// tailrec fun mulDigTail(number:Int,mul:Int):Int=
+//      if (number != 0)
+//          mulDigTail(number/10,mul * number%10)
+//      else
+//          mul
+
+// Хвостовая не работает(
+//tailrec fun factorial(number:BigInteger, fac:BigInteger = BigInteger.ONE):BigInteger=
+//    if (number != BigInteger.ONE)
+//        factorial(number - BigInteger.ONE, fac * number)
+//    else
+//        BigInteger.ONE
+
+
+
+fun factorial(number:BigInteger):BigInteger=
+    if (number != BigInteger.ONE)
+        number * factorial(number - BigInteger.ONE)
+    else
+        BigInteger.ONE
+
+tailrec fun digitSum(number:BigInteger, sum:BigInteger = BigInteger.ZERO):BigInteger=
+    if (number != BigInteger.ZERO)
+        digitSum(number/BigInteger.TEN, sum + number%BigInteger.TEN)
+    else
+        sum
+
 
 fun main() {
     //print(sumDigUp(333))
     //print(sumDigDown(122,0))
     //print(sumDigTail(312,0))
     //print(mulDigUp(1201))
-    //print(mulDigTail(1201,1))
+    //print(mulDigTail(121,1))
     //print(maxDigUp(531641))
     //print(maxDigTail(41234123,0))
     //print(minDigUp(52423))
@@ -186,6 +216,7 @@ fun main() {
     // print(task_7_3(14))
 
     // Задание 8
+    /*
     val scanner = Scanner(System.`in`)
 
     print("Введите число1: ")
@@ -199,4 +230,12 @@ fun main() {
 
     print("Результат: ")
     print(op(method)(num1,num2))
+     */
+
+    // Задание 9.20
+    
+    val n:BigInteger = BigInteger.valueOf(100)
+    //print("Factorial ${n} = ${factorial(n)}")
+    print("Digit sum factorial ${n} = ${digitSum(factorial(n))}")
+     
 }
