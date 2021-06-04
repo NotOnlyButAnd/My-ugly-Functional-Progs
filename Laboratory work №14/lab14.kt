@@ -1,3 +1,4 @@
+import java.util.*
 import kotlin.math.max
 import kotlin.math.min
 
@@ -124,6 +125,18 @@ tailrec fun sumDigLess5(number:Int,sum:Int = 0):Int=
 fun task_7_3(number:Int):Int=
     maxNotMutPrimeNotDivSD(number) * sumDigLess5(number)
 
+// task 8
+
+//Выбор операции над числами
+fun op(operator: String?): (Int, Int) -> Int =
+    when (operator) {
+        "+" -> {a: Int, b: Int -> a + b}
+        "-" -> {a: Int, b: Int -> a - b}
+        "*" -> {a: Int, b: Int -> a * b}
+        else -> throw IllegalArgumentException("Try again")
+    }
+
+
 fun main() {
     //print(sumDigUp(333))
     //print(sumDigDown(122,0))
@@ -170,6 +183,20 @@ fun main() {
     //print(maxNotMutPrimeNotDivSD(14))
     //print(sumDigLess5(14))
     // максимальный бла бла бла = 7, сумма цифр меньше 5 = 5 => 7 * 5 = 35
-    print(task_7_3(14))
+    // print(task_7_3(14))
 
+    // Задание 8
+    val scanner = Scanner(System.`in`)
+
+    print("Введите число1: ")
+    val num1 = scanner.nextInt()
+
+    print("Введите число2: ")
+    val num2 = scanner.nextInt()
+
+    print("Выберите, какую операцию хотите использовать (+,-,*): ")
+    var method: String? = scanner.next()
+
+    print("Результат: ")
+    print(op(method)(num1,num2))
 }
