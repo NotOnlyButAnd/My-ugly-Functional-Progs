@@ -202,6 +202,26 @@ tailrec fun getSomeStr(curNumber:Int = 1, curN:Int = 1, mul:Int = 1, N:Int = 10)
         return mul
 }
 
+// Выбор операции над числом 2
+fun op2(operator: String?): (Int) -> Int =
+    when (operator) {
+        "1" -> sumDigUp() 
+        "2" -> mulDigUp()
+        "3" -> maxDigUp()
+        "4" -> minDigUp()
+        else -> throw IllegalArgumentException("Try again")
+    }
+
+// Выбор операции над числом 3
+fun op3(operator: String?): (Int) -> Int =
+    when (operator) {
+        "1" -> {a -> sumDigUp(a)}
+        "2" -> {a -> mulDigUp(a)} 
+        "3" -> {a -> maxDigUp(a)}
+        "4" -> {a -> minDigUp(a)}
+        else -> throw IllegalArgumentException("Try again")
+    }
+
 
 fun main() {
     //print(sumDigUp(333))
@@ -266,6 +286,24 @@ fun main() {
 
     print("Результат: ")
     print(op(method)(num1,num2))
+     */
+
+// Задание 8*
+    /*
+    val scanner = Scanner(System.`in`)
+
+    print("Введите число: ")
+    val num = scanner.nextInt()
+
+    println("Выберите, какую операцию хотите использовать (+,-,*): ")
+    println("1 -> сумма цифр числа;)
+    println("2 -> произведение цифр числа;)
+    println("3 -> максимальная цифра числа;)
+    println("4 -> минимальная цифра числа;)
+    var method: String? = scanner.next()
+
+    print("Результат: ")
+    print(op2(method)(num))
      */
 
     // Задание 9.20
