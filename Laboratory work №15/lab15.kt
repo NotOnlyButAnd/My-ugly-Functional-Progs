@@ -1,3 +1,4 @@
+import java.io.File
 import java.util.Scanner
 
 // Создание массива
@@ -44,8 +45,53 @@ fun minElem(array: Array<Int>): Int = arrayOp(array,{ elem:Int, min:Int -> if (e
 // Максимальный элемент массива
 fun maxElem(array:Array<Int>): Int = arrayOp(array,{ elem:Int, max:Int -> if (elem > max) elem else max}, array[0], 0)
 
+///////////////////////////////////////////
+//////////     Ввод из файла    //////////
+
+fun arrayInputFile(input : Map<Int, Int>) : Array<Int> {
+    val array:Array<Int> = Array(input.size){0}
+    return arrayInputFile(array, 0, input.size, input)
+}
+
+// Заполнение массива элементами из файла
+fun arrayInputFile(array : Array<Int>, counter : Int, size : Int, input : Map<Int, Int>) : Array<Int> =
+    if (counter == size)
+        array
+    else {
+        array[counter] = input[counter]!!
+        arrayInputFile(array, counter + 1, size, input)
+    }
+
+// Организация чтения из файла
+// В одной строке одно число, возвращает мэп индексированный
+fun inputFile(fileName:String) : Array<Int> {
+    val input = File(fileName).readLines()
+        .withIndex() //Возвращает ленивую итерацию, которая обертывает каждый элемент исходного массива в IndexedValue, содержащий индекс этого элемента и сам элемент.
+        .map { indexedValue -> indexedValue.index to indexedValue.value.toInt() }  // Создаёт мапу
+        .toMap() //Возвращает мапу
+    return arrayInputFile(input)
+}
+
+fun chooseInput(): Array<Int>{
+    println("Откуда считывать массив?\n" +
+            "1. Из файла\n" +
+            "2. С клавиатуры")
+
+    val choose = readLine()!!.toInt()
+    if (choose == 2) {
+        println("Введите имя файла: ")
+        val name = readLine().toString()
+        return inputFile("./src/${name}.txt")
+    }
+    else
+        return initArray()
+}
+
 fun main() {
-    var myFirstArray: Array<Int> = initArray()
+    var myFirstArray: Array<Int> = chooseInput()
+    myFirstArray.forEach {
+        print("$it ")
+    }
 
     // val arrIterator = myFirstArray.iterator()
 
