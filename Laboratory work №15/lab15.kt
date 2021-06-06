@@ -46,7 +46,7 @@ fun minElem(array: Array<Int>): Int = arrayOp(array,{ elem:Int, min:Int -> if (e
 fun maxElem(array:Array<Int>): Int = arrayOp(array,{ elem:Int, max:Int -> if (elem > max) elem else max}, array[0], 0)
 
 ///////////////////////////////////////////
-//////////     Ввод из файла    //////////
+//////////     Ввод из файла    ///////////
 
 fun arrayInputFile(input : Map<Int, Int>) : Array<Int> {
     val array:Array<Int> = Array(input.size){0}
@@ -73,7 +73,7 @@ fun inputFile(fileName:String) : Array<Int> {
 }
 
 fun chooseInput(): Array<Int>{
-    println("Откуда считывать массив?\n" +
+    println("\n\nОткуда считывать массив?\n" +
             "1. Из файла\n" +
             "2. С клавиатуры")
 
@@ -88,12 +88,21 @@ fun chooseInput(): Array<Int>{
 }
 
 ///////////////////////////////////////////
-//////////     Задание 4.1.9    //////////
+//////////     Задание 4.1.9    ///////////
 fun task_4_1_9(array: Array<Int>): IntArray{
     val minimum = minElem(array)
     val indexOfLastMIn = array.indexOfLast { a -> a == minimum }
     return array.take(indexOfLastMIn).toIntArray()
 }
+
+///////////////////////////////////////////
+//////////     Задание 4.2.10    //////////
+tailrec fun task_4_2_10(array1: Array<Int>, array2: Array<Int>, acum: Int = 0, counter: Int = 0): Int=
+    if (counter == array1.size)
+        acum
+    else
+        task_4_2_10(array1,array2, if (array2.contains(array1[counter])) acum + 1 else acum, counter + 1 )
+
 
 fun main() {
     var myFirstArray: Array<Int> = chooseInput()
@@ -101,9 +110,17 @@ fun main() {
         print("$it ")
     }
 
+    // Задание 4.2.10
+    var mySecondArray: Array<Int> = chooseInput()
+    mySecondArray.forEach {
+        print("$it ")
+    }
+
+    println("\n\nCount of repeating elems: ${task_4_2_10(myFirstArray,mySecondArray)}")
+
     // Задание 4.1.9
     /*
-    println("Все элементы, до последнего минимального элемента:\n")
+    println("\nВсе элементы, до последнего минимального элемента:\n")
     var mySecondArray = task_4_1_9(myFirstArray)
     mySecondArray.forEach {
         print("$it ")
