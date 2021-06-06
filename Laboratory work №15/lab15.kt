@@ -116,6 +116,19 @@ tailrec fun countMinInAB(array: Array<Int>, b: Int, counter: Int, acum: Int, min
     else
         countMinInAB(array, b,counter + 1, if(array[counter] == min) acum + 1 else acum, min)
 
+///////////////////////////////////////////
+//////////     Задание 4.4.24    //////////
+////   1 2 3 4 5  max1 = 5, max2 = 4   ////
+tailrec fun task_4_4_24(array: Array<Int>): Array<Int>{
+    val max1 = maxElem(array)
+    val min = minElem(array)
+    array.set(array.indexOf(max1), min)
+    val max2 = maxElem(array)
+    val newArray = Array<Int>(2) {0}
+    newArray[0] = max1
+    newArray[1] = max2
+    return newArray
+}
 
 fun main() {
     var myFirstArray: Array<Int> = chooseInput()
@@ -123,10 +136,22 @@ fun main() {
         print("$it ")
     }
 
+    // Задание 4.4.24
+    // 2 наибольших элемента
+    print("\n2 наибольших элемента: ")
+    var mySecondArray: Array<Int> = task_4_4_24(myFirstArray)
+    mySecondArray.forEach {
+        print("$it ")
+    }
+
+
     // Задание 4.3.22
+    // количество минимумов в интервале (a,b)
+    /*
     val a = 0
     val b = 4
     println("\nКоличество минимальных в интервале ($a,$b): ${task_4_3_22(myFirstArray,a,b)}")
+     */
 
     // Задание 4.2.10
     // количество повторяющихся из 2-х массивов
@@ -140,6 +165,7 @@ fun main() {
      */
 
     // Задание 4.1.9
+    // Все элементы, до последнего минимального элемента
     /*
     println("\nВсе элементы, до последнего минимального элемента:\n")
     var mySecondArray = task_4_1_9(myFirstArray)
