@@ -103,6 +103,19 @@ tailrec fun task_4_2_10(array1: Array<Int>, array2: Array<Int>, acum: Int = 0, c
     else
         task_4_2_10(array1,array2, if (array2.contains(array1[counter])) acum + 1 else acum, counter + 1 )
 
+///////////////////////////////////////////
+//////////     Задание 4.3.22    //////////
+tailrec fun task_4_3_22(array: Array<Int>, a: Int, b: Int): Int{
+    val minimum = minElem(array)
+    return countMinInAB(array, b, a + 1, 0, minimum)
+}
+
+tailrec fun countMinInAB(array: Array<Int>, b: Int, counter: Int, acum: Int, min: Int): Int=
+    if (counter == b)
+        acum
+    else
+        countMinInAB(array, b,counter + 1, if(array[counter] == min) acum + 1 else acum, min)
+
 
 fun main() {
     var myFirstArray: Array<Int> = chooseInput()
@@ -110,13 +123,21 @@ fun main() {
         print("$it ")
     }
 
+    // Задание 4.3.22
+    val a = 0
+    val b = 4
+    println("\nКоличество минимальных в интервале ($a,$b): ${task_4_3_22(myFirstArray,a,b)}")
+
     // Задание 4.2.10
+    // количество повторяющихся из 2-х массивов
+    /*
     var mySecondArray: Array<Int> = chooseInput()
     mySecondArray.forEach {
         print("$it ")
     }
 
     println("\n\nCount of repeating elems: ${task_4_2_10(myFirstArray,mySecondArray)}")
+     */
 
     // Задание 4.1.9
     /*
