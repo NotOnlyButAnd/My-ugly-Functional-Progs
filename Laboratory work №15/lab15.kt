@@ -78,7 +78,7 @@ fun chooseInput(): Array<Int>{
             "2. С клавиатуры")
 
     val choose = readLine()!!.toInt()
-    if (choose == 2) {
+    if (choose == 1) {
         println("Введите имя файла: ")
         val name = readLine().toString()
         return inputFile("./src/${name}.txt")
@@ -87,11 +87,28 @@ fun chooseInput(): Array<Int>{
         return initArray()
 }
 
+///////////////////////////////////////////
+//////////     Задание 4.1.9    //////////
+fun task_4_1_9(array: Array<Int>): IntArray{
+    val minimum = minElem(array)
+    val indexOfLastMIn = array.indexOfLast { a -> a == minimum }
+    return array.take(indexOfLastMIn).toIntArray()
+}
+
 fun main() {
     var myFirstArray: Array<Int> = chooseInput()
     myFirstArray.forEach {
         print("$it ")
     }
+
+    // Задание 4.1.9
+    /*
+    println("Все элементы, до последнего минимального элемента:\n")
+    var mySecondArray = task_4_1_9(myFirstArray)
+    mySecondArray.forEach {
+        print("$it ")
+    }
+     */
 
     // val arrIterator = myFirstArray.iterator()
 
