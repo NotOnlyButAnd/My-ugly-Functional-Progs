@@ -195,14 +195,53 @@ tailrec fun getPositiveArr(array: Array<Int>, counter: Int = 0, positive: String
         getPositiveArr(array,counter + 1,
             if(array[counter] > 0) positive + array[counter].toString() + " " else positive)
 
+///////////////////////////////////////////
+//////////     Задание 4.9.58    //////////
+tailrec fun isSumOf2Other(array: IntArray, counter: Int = 0, value: Int): Boolean{
+    var n: Int = 1
+    array.forEach {
+        val temp = it
+        val newArray: IntArray = array.drop(n).toIntArray()
+        newArray.forEach {
+            if(it + temp == value)
+                return true
+        }
+        n++
+    }
+    return false
+}
+
+fun task_4_9_58(array: Array<Int>){
+    var count:Int = 0
+    var curElem:Int = 1
+    var elems: String = ""
+    array.forEach {
+        val firstPart: IntArray = array.take(curElem-1).toIntArray()
+        val secondPart: IntArray = array.drop(curElem).toIntArray()
+        val newArray: IntArray = firstPart + secondPart
+
+        if (isSumOf2Other(newArray,value = it))
+        {
+            count++
+            elems += "$it "
+        }
+        curElem++
+    }
+
+    println("\n\nКоличество, которые могут быть получены как сумма других 2-х: $count;\nЭлементы: $elems")
+}
+
 fun main() {
     var myFirstArray: Array<Int> = chooseInput()
     myFirstArray.forEach {
         print("$it ")
     }
 
+    // Задание 4.9.58
+    task_4_9_58(myFirstArray)
+
     // Задание 4.8.46
-    task_4_8_46(myFirstArray)
+    //task_4_8_46(myFirstArray)
 
     // Задание 4.7.40
     // task_4_7_40(myFirstArray)
