@@ -173,14 +173,39 @@ tailrec fun minEvenArr(array: Array<Int>, counter: Int = 0, acum: Int): Int=
     else
         minEvenArr(array,counter + 1, if(array[counter]%2 == 0 && array[counter] < acum) array[counter] else acum)
 
+///////////////////////////////////////////
+//////////     Задание 4.8.46    //////////
+fun task_4_8_46(array: Array<Int>){
+    val negative: String = getNegativeArr(array)
+    val positive: String = getPositiveArr(array)
+    println("\n\n$negative; $positive")
+}
+
+tailrec fun getNegativeArr(array: Array<Int>, counter: Int = 0, negative: String = ""): String=
+    if (counter == array.size)
+        negative
+    else
+        getNegativeArr(array,counter + 1,
+            if(array[counter] < 0) negative + array[counter].toString() + " " else negative)
+
+tailrec fun getPositiveArr(array: Array<Int>, counter: Int = 0, positive: String = ""): String=
+    if (counter == array.size)
+        positive
+    else
+        getPositiveArr(array,counter + 1,
+            if(array[counter] > 0) positive + array[counter].toString() + " " else positive)
+
 fun main() {
     var myFirstArray: Array<Int> = chooseInput()
     myFirstArray.forEach {
         print("$it ")
     }
 
+    // Задание 4.8.46
+    task_4_8_46(myFirstArray)
+
     // Задание 4.7.40
-    task_4_7_40(myFirstArray)
+    // task_4_7_40(myFirstArray)
 
     // Задание 4.6.34
     /*
