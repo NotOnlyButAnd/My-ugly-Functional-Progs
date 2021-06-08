@@ -1,5 +1,6 @@
 import java.io.File
 import java.util.Scanner
+import kotlin.random.Random
 
 // Создание массива
 fun initArray():Array<Int> {
@@ -89,10 +90,10 @@ fun chooseInput(): Array<Int>{
 
 ///////////////////////////////////////////
 //////////     Задание 4.1.9    ///////////
-fun task_4_1_9(array: Array<Int>): IntArray{
+fun task_4_1_9(array: Array<Int>): Array<Int>{
     val minimum = minElem(array)
     val indexOfLastMIn = array.indexOfLast { a -> a == minimum }
-    return array.take(indexOfLastMIn).toIntArray()
+    return array.take(indexOfLastMIn).toTypedArray()
 }
 
 ///////////////////////////////////////////
@@ -197,11 +198,11 @@ tailrec fun getPositiveArr(array: Array<Int>, counter: Int = 0, positive: String
 
 ///////////////////////////////////////////
 //////////     Задание 4.9.58    //////////
-fun isSumOf2Other(array: IntArray, counter: Int = 0, value: Int): Boolean{
+fun isSumOf2Other(array: Array<Int>, counter: Int = 0, value: Int): Boolean{
     var n: Int = 1
     array.forEach {
         val temp = it
-        val newArray: IntArray = array.drop(n).toIntArray()
+        val newArray: Array<Int> = array.drop(n).toTypedArray()
         newArray.forEach {
             if(it + temp == value)
                 return true
@@ -216,9 +217,9 @@ fun task_4_9_58(array: Array<Int>){
     var curElem:Int = 1
     var elems: String = ""
     array.forEach {
-        val firstPart: IntArray = array.take(curElem-1).toIntArray()
-        val secondPart: IntArray = array.drop(curElem).toIntArray()
-        val newArray: IntArray = firstPart + secondPart
+        val firstPart: Array<Int> = array.take(curElem-1).toTypedArray()
+        val secondPart: Array<Int> = array.drop(curElem).toTypedArray()
+        val newArray: Array<Int> = firstPart + secondPart
 
         if (isSumOf2Other(newArray,value = it))
         {
@@ -468,13 +469,85 @@ fun task_4_9_58_List(list: List<Int>){
     println("\n\nКоличество, которые могут быть получены как сумма других 2-х: $count;\nЭлементы: $elems")
 }
 
+// Создание списка
+fun generateList(): List<Double> {
+    val list: List<Double> = listOf()
+    return generateList(list, 0)
+}
+
+//Формирование списка
+tailrec fun generateList(list: List<Double>, counter: Int): List<Double> =
+    if (counter == 50000)
+        list
+    else
+        generateList(list.plus(Random.nextDouble(0.0,100000.0)), counter + 1)
+
+// Создание множества
+fun generateSet(list: List<Double>): Set<Double> {
+    val set: Set<Double> = setOf()
+    return generateSet(set, 0, list)
+}
+
+//Формирование множества
+tailrec fun generateSet(set: Set<Double>, counter: Int, list: List<Double>): Set<Double> =
+    if (counter == 50000)
+        set
+    else
+        generateSet(set.plus(Random.nextDouble(0.0,100000.0)), counter + 1, list)
+
+//Измерение времени для списка
+tailrec fun listMidTime(list: List<Double>, counter: Int = 0, sum :Double = 0.0):Double =
+    if(counter == 10)
+        sum / 10
+    else {
+        //println("Считаем время в спсике $counter раз...")
+        val time1 = System.currentTimeMillis().toDouble()
+        list.find { num:Double -> num == 1111.0 }
+        val time2 = System.currentTimeMillis().toDouble()
+        listMidTime(list, counter + 1, sum + (time2 - time1))
+    }
+
+//Измерение времени для множества
+tailrec fun setMidTime(set: Set<Double>, counter: Int = 0, sum :Double = 0.0):Double =
+    if(counter == 10)
+        sum / 10
+    else {
+        //println("Считаем время в множестве $counter раз...")
+        val time1 = System.currentTimeMillis().toDouble()
+        set.find { num:Double -> num == 1111.0 }
+        val time2 = System.currentTimeMillis().toDouble()
+        setMidTime(set, counter + 1, sum + (time2 - time1))
+    }
+
 fun main() {
+
+    // генерируем рандомные список и множество
+    val myList: List<Double> = generateList()
+    println("Сгенерировали список.... ${myList.size}")
+    val mySet: Set<Double> = generateSet(myList)
+    println("Сгенерировали множество.... ${mySet.size}")
+
+    println("Средне время поиска в списке: ${listMidTime(myList)};")
+    println("Средне время поиска в множестве: ${setMidTime(mySet)};")
+
+    // сортируем и проверяем времечки
+    myList.sorted()
+    mySet.sorted()
+    println("Средне время поиска в списке(sorted): ${listMidTime(myList)};")
+    println("Средне время поиска в множестве(sorted): ${setMidTime(mySet)};")
+
+
+    // Инициализация списка
+    /*
     var myFirstList: List<Int> = listChooseInput()
     myFirstList.forEach {
         print("$it ")
     }
+     */
 
+    // вывод суммы произведения минимума максимума для списка
     //println("\nSum: ${sumOfList(myFirstList)}; Mul: ${mulOfList(myFirstList)}\nMin: ${minListElem(myFirstList)}, Max: ${maxListElem(myFirstList)}")
+
     // инициализация массива
     /*
     var myFirstArray: Array<Int> = chooseInput()
