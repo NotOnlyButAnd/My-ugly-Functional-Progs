@@ -130,19 +130,31 @@ tailrec fun task_4_4_24(array: Array<Int>): Array<Int>{
     return newArray
 }
 
+///////////////////////////////////////////
+//////////     Задание 4.5.31    //////////
+tailrec fun countEvenArr(array: Array<Int>, counter: Int = 0, acum: Int = 0): Int=
+    if (counter == array.size)
+        acum
+    else
+        countEvenArr(array,counter + 1, if(array[counter]%2 == 0) acum + 1 else acum)
+
 fun main() {
     var myFirstArray: Array<Int> = chooseInput()
     myFirstArray.forEach {
         print("$it ")
     }
 
+    println("\nКоличество четных эл-тов: ${countEvenArr(myFirstArray)}")
+
     // Задание 4.4.24
     // 2 наибольших элемента
+    /*
     print("\n2 наибольших элемента: ")
     var mySecondArray: Array<Int> = task_4_4_24(myFirstArray)
     mySecondArray.forEach {
         print("$it ")
     }
+     */
 
 
     // Задание 4.3.22
