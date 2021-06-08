@@ -231,14 +231,64 @@ fun task_4_9_58(array: Array<Int>){
     println("\n\nКоличество, которые могут быть получены как сумма других 2-х: $count;\nЭлементы: $elems")
 }
 
+//////////////////////////////////////////
+// инициализация списка
+fun initList(): List<Int> {
+    print("Вводите элементы списка... (завершить ввод - q)\n")
+    val list = listOf<Int>()
+    return listInput(list)
+}
+//Ввод элементов списка с клавиатуры
+fun listInput(list : List<Int>) : List<Int>{
+    val elem:String = readLine()!!
+    return if (elem != "q")
+                listInput(list.plus(elem.toInt()))
+            else
+                list
+}
+
+//Функция перебора элементов списка (без методов List)
+tailrec fun listOp(a: Iterator<Int>, f: (Int, Int) -> Int, result: Int): Int =
+    if (!a.hasNext())
+        result
+    else
+        listOp(a, f, f(a.next(),result))
+
+// Перебор элементов списка (с методами List)
+tailrec fun listOp(list: List<Int>, f:(Int, Int) -> Int, acum:Int, counter:Int = 0):Int =
+    if (list.size == counter)
+        acum
+    else
+        listOp(list, f, f(list[counter], acum), counter + 1)
+
+// Сумма элементов списка
+fun sumOfList(list: List<Int>):Int = listOp(list,{ elem:Int, sum:Int -> elem + sum }, 0)
+
+// Произведение элементов списка
+fun mulOfList(list: List<Int>):Int = listOp(list,{ elem:Int, mul:Int -> elem * mul}, 1)
+
+// Минимальный элемент списка
+fun minListElem(list: List<Int>): Int = listOp(list,{ elem:Int, min:Int -> if (elem < min) elem else min}, list[0])
+
+// Максимальный элемент списка
+fun maxListElem(list: List<Int>): Int = listOp(list,{ elem:Int, max:Int -> if (elem > max) elem else max}, list[0])
+
 fun main() {
+    var myFirstList: List<Int> = initList()
+    myFirstList.forEach {
+        print("$it ")
+    }
+    println("\nSum: ${sumOfList(myFirstList)}; Mul: ${mulOfList(myFirstList)}\nMin: ${minListElem(myFirstList)}, Max: ${maxListElem(myFirstList)}")
+    // инициализация массива
+    /*
     var myFirstArray: Array<Int> = chooseInput()
     myFirstArray.forEach {
         print("$it ")
     }
+     */
 
     // Задание 4.9.58
-    task_4_9_58(myFirstArray)
+    //task_4_9_58(myFirstArray)
 
     // Задание 4.8.46
     //task_4_8_46(myFirstArray)
