@@ -47,7 +47,7 @@ fun maxElem(array:Array<Int>): Int = arrayOp(array,{ elem:Int, max:Int -> if (el
 
 ///////////////////////////////////////////
 //////////     Ввод из файла    ///////////
-
+//////////       массив         ///////////
 fun arrayInputFile(input : Map<Int, Int>) : Array<Int> {
     val array:Array<Int> = Array(input.size){0}
     return arrayInputFile(array, 0, input.size, input)
@@ -273,12 +273,60 @@ fun minListElem(list: List<Int>): Int = listOp(list,{ elem:Int, min:Int -> if (e
 // Максимальный элемент списка
 fun maxListElem(list: List<Int>): Int = listOp(list,{ elem:Int, max:Int -> if (elem > max) elem else max}, list[0])
 
+///////////////////////////////////////////
+//////////     Ввод из файла    ///////////
+//////////        список        ///////////
+
+// создание списка и вызов заполнения из файла
+fun listInputFile(input : Map<Int, Int>) : List<Int> {
+    val list:List<Int> = listOf()
+    return listInputFile(list, 0, input)
+}
+
+//Заполнение списка элементами из файла
+fun listInputFile(list: List<Int>, counter : Int, input : Map<Int, Int>) : List<Int> =
+    if (counter == input.size)
+        list
+    else
+    {
+        listInputFile(list.plus(input[counter]!!), counter + 1,  input)
+    }
+
+//Организация чтения из файла
+//Одна строка - одно число, возвращает мэп индексированный
+fun listInputFile(fileName:String) : List<Int> {
+    val input = File(fileName).readLines()
+        .withIndex() //Возвращает ленивую итерацию, которая обертывает каждый элемент исходного массива в IndexedValue, содержащий индекс этого элемента и сам элемент.
+        .map { indexedValue -> indexedValue.index to indexedValue.value.toInt() }  // Создаёт мапу
+        .toMap() //Возвращает мапу
+    return listInputFile(input)
+}
+
+// Выбор откуда считать список
+fun listChooseInput() : List<Int> {
+    println(
+        "Откуда считывать список?\n" +
+                "1. Клавиатура\n" +
+                "2. Файл"
+    )
+    val type = readLine()!!.toInt()
+    if (type == 2) {
+        println("Введите имя файла: ")
+        val name = readLine().toString()
+        return listInputFile("./src/${name}.txt")
+    }
+    else
+        return initList()
+}
+
+
 fun main() {
-    var myFirstList: List<Int> = initList()
+    var myFirstList: List<Int> = listChooseInput()
     myFirstList.forEach {
         print("$it ")
     }
-    println("\nSum: ${sumOfList(myFirstList)}; Mul: ${mulOfList(myFirstList)}\nMin: ${minListElem(myFirstList)}, Max: ${maxListElem(myFirstList)}")
+
+    //println("\nSum: ${sumOfList(myFirstList)}; Mul: ${mulOfList(myFirstList)}\nMin: ${minListElem(myFirstList)}, Max: ${maxListElem(myFirstList)}")
     // инициализация массива
     /*
     var myFirstArray: Array<Int> = chooseInput()
