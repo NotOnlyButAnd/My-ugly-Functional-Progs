@@ -138,13 +138,29 @@ tailrec fun countEvenArr(array: Array<Int>, counter: Int = 0, acum: Int = 0): In
     else
         countEvenArr(array,counter + 1, if(array[counter]%2 == 0) acum + 1 else acum)
 
+///////////////////////////////////////////
+//////////     Задание 4.6.34    //////////
+// [2,4] - отрезок. массив - 4 3 1 2 5
+tailrec fun task_4_6_34(array: Array<Int>, a: Int, b: Int, counter: Int = 0, elems: String = ""): String=
+    if (counter == array.size)
+        elems
+    else
+        task_4_6_34(array, a, b,counter + 1,
+            if(array[counter] in a..b) elems + array[counter].toString() + " " else elems)
+
 fun main() {
     var myFirstArray: Array<Int> = chooseInput()
     myFirstArray.forEach {
         print("$it ")
     }
 
-    println("\nКоличество четных эл-тов: ${countEvenArr(myFirstArray)}")
+    // Задание 4.6.34
+    val a = 2
+    val b = 4
+    println("\nЭлементы, значения которых из [$a,$b]: ${task_4_6_34(myFirstArray,a,b)}")
+
+    // Задание 4.5.31
+    //println("\nКоличество четных эл-тов: ${countEvenArr(myFirstArray)}")
 
     // Задание 4.4.24
     // 2 наибольших элемента
