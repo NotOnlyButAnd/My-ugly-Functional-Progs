@@ -148,16 +148,46 @@ tailrec fun task_4_6_34(array: Array<Int>, a: Int, b: Int, counter: Int = 0, ele
         task_4_6_34(array, a, b,counter + 1,
             if(array[counter] in a..b) elems + array[counter].toString() + " " else elems)
 
+///////////////////////////////////////////
+//////////     Задание 4.7.40    //////////
+fun task_4_7_40(array: Array<Int>){
+    val check = evenInArr(array)
+    if (check != -1)
+        println("\nМинимальное четное: ${minEvenArr(array, acum = check)}")
+    else
+        println("\nВ массиве нет четных!")
+}
+
+tailrec fun evenInArr(array: Array<Int>, counter: Int = 0, acum: Int = -1): Int=
+    if (counter == array.size)
+        acum
+    else
+        if(array[counter]%2 == 0)
+            array[counter]
+        else
+            evenInArr(array,counter + 1, acum)
+
+tailrec fun minEvenArr(array: Array<Int>, counter: Int = 0, acum: Int): Int=
+    if (counter == array.size)
+        acum
+    else
+        minEvenArr(array,counter + 1, if(array[counter]%2 == 0 && array[counter] < acum) array[counter] else acum)
+
 fun main() {
     var myFirstArray: Array<Int> = chooseInput()
     myFirstArray.forEach {
         print("$it ")
     }
 
+    // Задание 4.7.40
+    task_4_7_40(myFirstArray)
+
     // Задание 4.6.34
+    /*
     val a = 2
     val b = 4
     println("\nЭлементы, значения которых из [$a,$b]: ${task_4_6_34(myFirstArray,a,b)}")
+     */
 
     // Задание 4.5.31
     //println("\nКоличество четных эл-тов: ${countEvenArr(myFirstArray)}")
