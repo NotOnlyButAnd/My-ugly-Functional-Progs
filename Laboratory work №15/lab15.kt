@@ -105,7 +105,7 @@ tailrec fun task_4_2_10(array1: Array<Int>, array2: Array<Int>, acum: Int = 0, c
 
 ///////////////////////////////////////////
 //////////     Задание 4.3.22    //////////
-tailrec fun task_4_3_22(array: Array<Int>, a: Int, b: Int): Int{
+fun task_4_3_22(array: Array<Int>, a: Int, b: Int): Int{
     val minimum = minElem(array)
     return countMinInAB(array, b, a + 1, 0, minimum)
 }
@@ -119,7 +119,7 @@ tailrec fun countMinInAB(array: Array<Int>, b: Int, counter: Int, acum: Int, min
 ///////////////////////////////////////////
 //////////     Задание 4.4.24    //////////
 ////   1 2 3 4 5  max1 = 5, max2 = 4   ////
-tailrec fun task_4_4_24(array: Array<Int>): Array<Int>{
+fun task_4_4_24(array: Array<Int>): Array<Int>{
     val max1 = maxElem(array)
     val min = minElem(array)
     array.set(array.indexOf(max1), min)
@@ -197,7 +197,7 @@ tailrec fun getPositiveArr(array: Array<Int>, counter: Int = 0, positive: String
 
 ///////////////////////////////////////////
 //////////     Задание 4.9.58    //////////
-tailrec fun isSumOf2Other(array: IntArray, counter: Int = 0, value: Int): Boolean{
+fun isSumOf2Other(array: IntArray, counter: Int = 0, value: Int): Boolean{
     var n: Int = 1
     array.forEach {
         val temp = it
@@ -231,6 +231,8 @@ fun task_4_9_58(array: Array<Int>){
     println("\n\nКоличество, которые могут быть получены как сумма других 2-х: $count;\nЭлементы: $elems")
 }
 
+//////////////////////////////////////////
+//////////////   СПИСКИ  /////////////////
 //////////////////////////////////////////
 // инициализация списка
 fun initList(): List<Int> {
@@ -319,6 +321,152 @@ fun listChooseInput() : List<Int> {
         return initList()
 }
 
+///////////////////////////////////////////
+//////////     Задание 4.1.9    ///////////
+fun task_4_1_9_List(list: List<Int>): List<Int>{
+    val minimum = minListElem(list)
+    val indexOfLastMIn = list.indexOfLast { a -> a == minimum }
+    return list.take(indexOfLastMIn)
+}
+
+///////////////////////////////////////////
+//////////     Задание 4.2.10    //////////
+tailrec fun task_4_2_10_List(list1: List<Int>, list2: List<Int>, acum: Int = 0, counter: Int = 0): Int=
+    if (counter == list1.size)
+        acum
+    else
+        task_4_2_10_List(list1,list2, if (list2.contains(list1[counter])) acum + 1 else acum, counter + 1 )
+
+///////////////////////////////////////////
+//////////     Задание 4.3.22    //////////
+fun task_4_3_22_List(list: List<Int>, a: Int, b: Int): Int{
+    val minimum = minListElem(list)
+    return countMinInAB_List(list, b, a + 1, 0, minimum)
+}
+
+tailrec fun countMinInAB_List(list: List<Int>, b: Int, counter: Int, acum: Int, min: Int): Int=
+    if (counter == b)
+        acum
+    else
+        countMinInAB_List(list, b,counter + 1, if(list[counter] == min) acum + 1 else acum, min)
+
+///////////////////////////////////////////
+//////////     Задание 4.4.24    //////////
+////   1 2 3 4 5  max1 = 5, max2 = 4   ////
+fun task_4_4_24_List(list: List<Int>): List<Int>{
+    val max1 = maxListElem(list)
+    val min = minListElem(list)
+    val indexMax1 = list.indexOf(max1)
+    val list1: List<Int> = list.take(indexMax1 - 1)
+    val list2: List<Int> = list.drop(indexMax1)
+    val listConcat: List<Int> = list1 + list2
+    val max2 = maxListElem(listConcat)
+    val newList: List<Int> = listOf<Int>()
+    newList.plus(max1)
+    newList.plus(max2)
+    return newList
+}
+
+///////////////////////////////////////////
+//////////     Задание 4.5.31    //////////
+tailrec fun countEvenArr_List(list: List<Int>, counter: Int = 0, acum: Int = 0): Int=
+    if (counter == list.size)
+        acum
+    else
+        countEvenArr_List(list,counter + 1, if(list[counter]%2 == 0) acum + 1 else acum)
+
+///////////////////////////////////////////
+//////////     Задание 4.6.34    //////////
+// [2,4] - отрезок. массив - 4 3 1 2 5
+tailrec fun task_4_6_34_List(list: List<Int>, a: Int, b: Int, counter: Int = 0, elems: String = ""): String=
+    if (counter == list.size)
+        elems
+    else
+        task_4_6_34_List(list, a, b,counter + 1,
+            if(list[counter] in a..b) elems + list[counter].toString() + " " else elems)
+
+///////////////////////////////////////////
+//////////     Задание 4.7.40    //////////
+fun task_4_7_40_List(list: List<Int>){
+    val check = evenInArr_List(list)
+    if (check != -1)
+        println("\nМинимальное четное: ${minEvenArr_List(list, acum = check)}")
+    else
+        println("\nВ массиве нет четных!")
+}
+
+tailrec fun evenInArr_List(list: List<Int>, counter: Int = 0, acum: Int = -1): Int=
+    if (counter == list.size)
+        acum
+    else
+        if(list[counter]%2 == 0)
+            list[counter]
+        else
+            evenInArr_List(list,counter + 1, acum)
+
+tailrec fun minEvenArr_List(list: List<Int>, counter: Int = 0, acum: Int): Int=
+    if (counter == list.size)
+        acum
+    else
+        minEvenArr_List(list,counter + 1, if(list[counter]%2 == 0 && list[counter] < acum) list[counter] else acum)
+
+///////////////////////////////////////////
+//////////     Задание 4.8.46    //////////
+fun task_4_8_46_List(list: List<Int>){
+    val negative: String = getNegativeList(list)
+    val positive: String = getPositiveList(list)
+    println("\n\n$negative; $positive")
+}
+
+tailrec fun getNegativeList(list: List<Int>, counter: Int = 0, negative: String = ""): String=
+    if (counter == list.size)
+        negative
+    else
+        getNegativeList(list,counter + 1,
+            if(list[counter] < 0) negative + list[counter].toString() + " " else negative)
+
+tailrec fun getPositiveList(list: List<Int>, counter: Int = 0, positive: String = ""): String=
+    if (counter == list.size)
+        positive
+    else
+        getPositiveList(list,counter + 1,
+            if(list[counter] > 0) positive + list[counter].toString() + " " else positive)
+
+///////////////////////////////////////////
+//////////     Задание 4.9.58    //////////
+fun isSumOf2Other_List(list: List<Int>, counter: Int = 0, value: Int): Boolean{
+    var n: Int = 1
+    list.forEach {
+        val temp = it
+        val newList: List<Int> = list.drop(n)
+        newList.forEach {
+            if(it + temp == value)
+                return true
+        }
+        n++
+    }
+    return false
+}
+
+fun task_4_9_58_List(list: List<Int>){
+    var count:Int = 0
+    var curElem:Int = 1
+    var elems: String = ""
+    list.forEach {
+        val firstPart: List<Int> = list.take(curElem-1)
+        val secondPart: List<Int> = list.drop(curElem)
+        val newList: List<Int> = firstPart + secondPart
+
+        if (isSumOf2Other_List(newList,value = it))
+        {
+            count++
+            elems += "$it "
+        }
+        curElem++
+    }
+
+    println("\n\nКоличество, которые могут быть получены как сумма других 2-х: $count;\nЭлементы: $elems")
+}
 
 fun main() {
     var myFirstList: List<Int> = listChooseInput()
